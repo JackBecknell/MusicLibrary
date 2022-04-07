@@ -1,4 +1,5 @@
 from .models import Song
+from .serializers import SongSerializer
 from rest_framework.decorators import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -7,11 +8,17 @@ from django.http import Http404
 
 class SongList(APIView):
     def get(self, request, format=None):
-        return Response('SongList says hi')
-        pass
+        songs = Song.objects.all()
+        serializer = SongSerializer(songs, many=True)
+        return Response(serializer.data)
 
     def post(self, request, format=None):
-        pass
+        serializer = SongSerializer(data=request.data)
+        if serializer.is_valid() == True:
+            serializer.save()
+            return Response(serializer.data, status = status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=400)
 
 class SongDetail(APIView):
     #helper function
