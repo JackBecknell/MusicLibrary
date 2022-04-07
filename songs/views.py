@@ -27,8 +27,9 @@ class SongDetail(APIView):
             raise Http404
 
     def get(self, request, pk, format=None):
-        return Response('SongDetail says hi')
-        pass
+        song = self.get_object(pk)
+        serializer = SongSerializer(song)
+        return Response(serializer.data)
 
     def put(self, request, pk, format=None):
         pass
