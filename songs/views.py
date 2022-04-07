@@ -3,6 +3,7 @@ from .serializers import SongSerializer
 from rest_framework.decorators import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from django.shortcuts import get_object_or_404
 from django.http import Http404
 
 
@@ -32,7 +33,13 @@ class SongDetail(APIView):
         return Response(serializer.data)
 
     def put(self, request, pk, format=None):
-        pass
+        song = self.get_object(pk)
+        serializer = SongSerializer(song, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
         pass
