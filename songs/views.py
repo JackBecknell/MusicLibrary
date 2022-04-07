@@ -14,11 +14,9 @@ class SongList(APIView):
 
     def post(self, request, format=None):
         serializer = SongSerializer(data=request.data)
-        if serializer.is_valid() == True:
-            serializer.save()
-            return Response(serializer.data, status = status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=400)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status = status.HTTP_201_CREATED)
 
 class SongDetail(APIView):
     #helper function
