@@ -7,6 +7,7 @@ from django.http import Http404
 
 class SongList(APIView):
     def get(self, request, format=None):
+        return Response('SongList says hi')
         pass
 
     def post(self, request, format=None):
@@ -21,6 +22,7 @@ class SongDetail(APIView):
             raise Http404
 
     def get(self, request, pk, format=None):
+        return Response('SongDetail says hi')
         pass
 
     def put(self, request, pk, format=None):
