@@ -42,7 +42,9 @@ class SongDetail(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
-        pass
+        song = self.get_object(pk)
+        song.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
     
 
